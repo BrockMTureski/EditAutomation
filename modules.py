@@ -9,6 +9,7 @@ import os
 from pathlib import *
 import ffmpeg
 from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
+from csv import writer
 
 
 def mp4ToWav(fileName,outFileName):
@@ -100,15 +101,59 @@ def subclip(mp4FileName,timeMatrix):
     
     newDir=settings.outputDir+outFileRoot
     os.mkdir(newDir)
+    print(newDir+" created successfully.\n")
 
     f=1
     for i in timeMatrix:
+        #create subclip
         starttime=i[0]
         endtime=i[1]
-        temp_target=settings.outputDir + outFileRoot+str(f) + ".mp4"
+        temp_target=settings.outputDir + outFileRoot + "/" +outFileRoot+ str(f) + ".mp4"
         ffmpeg_extract_subclip(mp4Path, starttime, endtime, targetname=temp_target)
+        print(outFileRoot+str(f)+".mp4 created successfully")
+        #increment loop counter
+        f=f+1
+        #append changes made to end of log
+        csvInput=[outFileRoot,starttime,endtime]
+        with open("log.csv","a+") as log:
+            logWrite=writer(log)
+            logWrite.writerow(csvInput)
+
+
+
+
 
     return 0
 
 
-def main(delInput=True,)
+def main(delInput=False,inputPath="",outputPath=""):
+
+    if inputPath=="":
+        inputPath=settings.inputDir
+    
+    if outputPath=="":
+        outputPath=settings.outputDir
+    
+    archivePath=str(Path(os.getcwd()))+'/archive/'
+    
+    directoryList=os.listdir(inputPath)
+    print(directoryList)
+
+    for inFile in directoryList:
+
+        outRoot=inFile[:len(inFile)-4]
+        outPath=mp4ToWav(inFile,outRoot)
+        clip_segments=analyzeWavFile(outPath)
+        delFile(outPath)
+        subclip(inFile,clip_segments)
+
+        if delInput==False:
+            os.rename(inputPath + inFile, archivePath + inFile)
+        else:
+            delFile(inputPath + inFile)
+
+
+    print("video automation is complete :).")
+    return 0
+        
+        
