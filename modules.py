@@ -24,7 +24,7 @@ def mp4ToWav(fileName,outFileName):
 
 
     inPath=settings.inputDir + fileName
-    outFileName=outFileName+".wav"
+    outFileName=outFileName + ".wav"
 
     input=ffmpeg.input(inPath)
     audio=input.audio
@@ -119,10 +119,6 @@ def subclip(mp4FileName,timeMatrix):
             logWrite=writer(log)
             logWrite.writerow(csvInput)
 
-
-
-
-
     return 0
 
 
@@ -152,8 +148,5 @@ def main(delInput=False,inputPath="",outputPath=""):
         else:
             delFile(inputPath + inFile)
 
-
     print("video automation is complete :).")
-    return 0
-        
-        
+    return 0  
