@@ -2,7 +2,6 @@ from asyncio.windows_events import NULL
 from matplotlib.pyplot import plot
 from pyAudioAnalysis import audioSegmentation as aS
 from pyAudioAnalysis import audioBasicIO as aIO
-import subprocess
 import settings
 from os.path import exists
 import os
@@ -10,6 +9,8 @@ from pathlib import *
 import ffmpeg
 from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
 from csv import writer
+from PIL import ImageTk as itk
+from tkinter import *
 
 
 def mp4ToWav(fileName,outFileName):
@@ -67,7 +68,7 @@ def delFile(file):
         return True
 
 
-def analyzeWavFile(file):
+def analyzeWavFile(file,sensitivity):
 
     """takes in file path for .wav and analyzes parts to keep
 
@@ -79,7 +80,7 @@ def analyzeWavFile(file):
     """
 
     [Fs,x] = aIO.read_audio_file(file)
-    segments=aS.silence_removal(x,Fs,0.020,0.020,smooth_window=1.0,weight=.3,plot=False)
+    segments=aS.silence_removal(x,Fs,0.020,0.020,smooth_window=1.0,weight=sensitivity,plot=False)
     return segments
 
 
@@ -122,7 +123,7 @@ def subclip(mp4FileName,timeMatrix):
     return 0
 
 
-def main(delInput=False,inputPath="",outputPath=""):
+def main(sensitivity, delInput=False,inputPath="",outputPath=""):
 
     if inputPath=="":
         inputPath=settings.inputDir
@@ -139,7 +140,7 @@ def main(delInput=False,inputPath="",outputPath=""):
 
         outRoot=inFile[:len(inFile)-4]
         outPath=mp4ToWav(inFile,outRoot)
-        clip_segments=analyzeWavFile(outPath)
+        clip_segments=analyzeWavFile(outPath,float(sensitivity))
         delFile(outPath)
         subclip(inFile,clip_segments)
 
@@ -150,3 +151,91 @@ def main(delInput=False,inputPath="",outputPath=""):
 
     print("video automation is complete :).")
     return 0  
+
+
+def guiInit():
+
+    top = Tk()
+
+    def rgb_hack(rgb):
+        return "#%02x%02x%02x" % rgb
+
+    def move_window(event):
+        top.geometry('+{0}+{1}'.format(event.x_root, event.y_root))
+
+    def quitter(event):
+        top.quit()
+
+    color="#181818"
+    barColor="#404040"
+    runButtonColor="#b3b3b3"
+
+
+    top.geometry("400x250+200+200")
+     
+    top.overrideredirect(True)
+    titleBar=Frame(top,bg=barColor,relief='flat', bd=1)
+    closeButtonLabel=Label(titleBar,fg="white",text='X',bg=barColor,width=5)
+    window=Canvas(top,bg=color,bd=0)
+    titleLabel=Label(titleBar,text="Minute Study Automations",bg=barColor,fg="white")
+
+    minuteStudy = "minutestudy16.png"
+    menuImage=itk.PhotoImage(file=minuteStudy)
+    menuButton=Button(titleBar,image=menuImage,bg=barColor,fg=barColor,highlightbackground=barColor,bd=0)
+
+    titleBar.pack(expand=1,fill=X)
+    closeButtonLabel.pack(side=RIGHT)
+    window.pack(expand=1,fill=BOTH)
+    menuButton.pack(side=LEFT)
+    titleLabel.pack(side=LEFT,padx=2)
+
+    closeButtonLabel.bind("<Button-1>",quitter)
+    titleBar.bind('<B1-Motion>',move_window)
+
+    instruction= Label(top,text="Leave input and output fields empty for default.",fg="white",bg=color)
+    instruction.place(x=15,y=165)
+    inputFolder= Label(top,text="Input Path",fg="white",bg=color)
+    inputFolder.place(x=30,y=50)
+    outputFolder= Label(top,text="Output Path",fg="white",bg=color)
+    outputFolder.place(x=30,y=90)
+    sensitivity= Label(top,text="Sensitivity (0.1-1)",fg="white",bg=color)
+    sensitivity.place(x=30,y=130)
+    defaultIn= Label(top,text="Default Input Path= "+settings.inputDir,fg="white",bg=color)
+    defaultIn.place(x=15,y=185)
+    defaultOut= Label(top,text="Default Input Path= "+settings.outputDir,fg="white",bg=color)
+    defaultOut.place(x=15,y=205)
+
+    e1 = Entry(top,width=30)
+    e1.place(x = 140, y = 50)
+    e2 = Entry(top,width=30)
+    e2.place(x = 140, y = 90)
+    e3 = Entry(top,width=30)
+    e3.place(x = 140, y = 130)
+
+    run=Button(top,text="  Run  ",bg=runButtonColor,fg="black",bd=0)
+
+    def automate(event):
+
+        sens=e3.get()
+        inputt=e1.get()
+        out=e2.get()
+        e1.destroy()
+        e2.destroy()
+        e3.destroy()
+        instruction.destroy()
+        inputFolder.destroy()
+        outputFolder.destroy()
+        sensitivity.destroy()
+        defaultIn.destroy()
+        defaultOut.destroy()
+        run.destroy()
+        processing=Label(top,text="processing...",fg="white",bg=color,bd=0)
+        processing.place(x=200,y=125)
+        temp=main(sens,inputPath=inputt,outputPath=out)
+        processing.destroy()
+        done=Label(top,text="Automation complete.",fg="white",bg=color,bd=0).place(x=180,y=125)
+
+    run.place(x=330,y=132)
+    run.bind("<Button-1>",automate)
+
+    top.mainloop()

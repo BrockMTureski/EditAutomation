@@ -1,12 +1,4 @@
+from matplotlib.pyplot import title
 import modules
 
-
-modules.main()
-
-
-
-
-
-
-
-
+modules.guiInit()
