@@ -154,7 +154,10 @@ def main(sensitivity, delInput=False,inputPath="",outputPath=""):
 
 
 def guiInit():
-
+    """
+    gui function
+    
+    """
     top = Tk()
 
     def rgb_hack(rgb):
@@ -215,7 +218,9 @@ def guiInit():
     run=Button(top,text="  Run  ",bg=runButtonColor,fg="black",bd=0)
 
     def automate(event):
-
+        """
+        Run function that takes in gui text input then runs edit automations
+        """
         sens=e3.get()
         inputt=e1.get()
         out=e2.get()
