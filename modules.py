@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from matplotlib.pyplot import plot
 from pyAudioAnalysis import audioSegmentation as aS
 from pyAudioAnalysis import audioBasicIO as aIO
@@ -45,7 +44,7 @@ def mp4ToWav(fileName,outFileName):
 
     else:
         print("ERROR:.wav not created successfully.\n")
-        return NULL
+        return None
 
 
 def delFile(file):
