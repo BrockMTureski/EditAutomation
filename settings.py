@@ -1,4 +1,4 @@
 #Folder output for clips to be output to
-outputDir="C:/Users/Brock/Desktop/editAutomation/output/"
+outputDir="/Users/deantsikrikis/Desktop/editAutomation/output/"
 #Folder for clip being edited
-inputDir="C:/Users/Brock/Desktop/editAutomation/input/"
+inputDir="/Users/deantsikrikis/Desktop/editAutomation/input/"
