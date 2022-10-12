@@ -1,6 +1,6 @@
 # editAutomation
 
-to install run the following commands for windows:
+to install run the following commands:
 
 
 ```
