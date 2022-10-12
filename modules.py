@@ -195,24 +195,24 @@ def guiInit():
     titleBar.bind('<B1-Motion>',move_window)
 
     instruction= Label(top,text="Leave input and output fields empty for default.",fg="white",bg=color)
-    instruction.place(x=15,y=165)
+    instruction.place(x=15,y=45)
     inputFolder= Label(top,text="Input Path",fg="white",bg=color)
-    inputFolder.place(x=30,y=50)
+    inputFolder.place(x=30,y=70)
     outputFolder= Label(top,text="Output Path",fg="white",bg=color)
-    outputFolder.place(x=30,y=90)
+    outputFolder.place(x=30,y=110)
     sensitivity= Label(top,text="Sensitivity (0.1-1)",fg="white",bg=color)
-    sensitivity.place(x=30,y=130)
+    sensitivity.place(x=30,y=150)
     defaultIn= Label(top,text="Default Input Path= "+settings.inputDir,fg="white",bg=color)
-    defaultIn.place(x=15,y=185)
+    defaultIn.place(x=15,y=205)
     defaultOut= Label(top,text="Default Input Path= "+settings.outputDir,fg="white",bg=color)
-    defaultOut.place(x=15,y=205)
+    defaultOut.place(x=15,y=225)
 
     e1 = Entry(top,width=30)
-    e1.place(x = 140, y = 50)
+    e1.place(x = 140, y = 70)
     e2 = Entry(top,width=30)
-    e2.place(x = 140, y = 90)
+    e2.place(x = 140, y = 110)
     e3 = Entry(top,width=30)
-    e3.place(x = 140, y = 130)
+    e3.place(x = 140, y = 150)
 
     run=Button(top,text="  Run  ",bg=runButtonColor,fg="black",bd=0)
 
@@ -239,7 +239,7 @@ def guiInit():
         processing.destroy()
         done=Label(top,text="Automation complete.",fg="white",bg=color,bd=0).place(x=180,y=125)
 
-    run.place(x=330,y=132)
+    run.place(x=450,y=149)
     run.bind("<Button-1>",automate)
 
     top.mainloop()
