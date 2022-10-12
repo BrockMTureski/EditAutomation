@@ -173,7 +173,7 @@ def guiInit():
     runButtonColor="#b3b3b3"
 
 
-    top.geometry("400x250+200+200")
+    top.geometry("500x300+200+200")
      
     top.overrideredirect(True)
     titleBar=Frame(top,bg=barColor,relief='flat', bd=1)
