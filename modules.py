@@ -143,10 +143,10 @@ def main(sensitivity, delInput=False,inputPath="",outputPath=""):
         delFile(outPath)
         subclip(inFile,clip_segments)
 
-        if delInput==False:
-            os.rename(inputPath + inFile, archivePath + inFile)
-        else:
-            delFile(inputPath + inFile)
+        #if delInput==False:
+            #os.rename(inputPath + inFile, archivePath + inFile)
+        #else:
+            #delFile(inputPath + inFile)
 
     print("video automation is complete :).")
     return 0  
