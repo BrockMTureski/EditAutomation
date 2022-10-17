@@ -1,6 +1,0 @@
-matplotlib
-pathlib
-ffmpeg
-moviepy
-itk
-tkinter
