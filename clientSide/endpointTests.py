@@ -1,11 +1,9 @@
 import json
 import requests
-import pytest
-import shlex
-import clientModules
 import os
 import shutil
 import zipfile
+import clientModules
 
 BASE = "http://127.0.0.1:5000/"
 
@@ -116,3 +114,7 @@ def test10():
         assert True
     else:
         assert False
+
+
+r = requests.get(BASE+'test')
+print(r)

@@ -164,6 +164,14 @@ def zip(path,zipfolder):
     os.chdir(wdRestore)
 
 
+def splitJsonResp(s):
+    """splits a json http response into just the message, used for testing."""
+    print(s)
+    split= s.split('\"')
+    split=split[3]
+    return split
+
+
 def unzip(pathOfZip,outputPath):
     with zipfile.ZipFile(pathOfZip,'r') as zip:
         zip.extractall(outputPath)

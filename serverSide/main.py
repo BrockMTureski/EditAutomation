@@ -1,4 +1,3 @@
-import json
 import os
 import app as app
 import modules
@@ -123,4 +122,4 @@ def run(sensitivity=0.5):
 
 
 if __name__ == "__main__":
-    App.run(debug=True)
+    App.run(debug=True,port=8080)

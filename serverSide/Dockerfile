@@ -3,13 +3,18 @@
 FROM python:3.8-slim-buster
 
 ENV RUNTIME_DEPENDENCIES="ffmpeg"
+
 RUN apt-get update \
-    &&apt-get install -y ${RUNTIME_DEPENDENCIES} \
+    && apt-get install -y ${RUNTIME_DEPENDENCIES} \
+    && /usr/local/bin/python -m pip install --upgrade pip \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /python-docker
-COPY requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-COPY . .
+WORKDIR /app
+COPY requirements.txt /app/requirements.txt
+RUN pip install -r /app/requirements.txt
+COPY . /app
+EXPOSE 8080
+EXPOSE 5000
 
-CMD [ "python3", "-m" , "flask", "run", "--host=0.0.0.0"]
+
+CMD python3 main.py
