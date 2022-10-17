@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 import zipfile
 
 
-ALLOWED_FILE_TYPE=set(['mp4','zip'])
+ALLOWED_FILE_TYPE=set(['mp4'])
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_FILE_TYPE

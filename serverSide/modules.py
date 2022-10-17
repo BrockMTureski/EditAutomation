@@ -134,14 +134,6 @@ def showDir(path):
     ret=ret[:-2]
     return ret
 
-        
-def splitJsonResp(s):
-    """splits a json http response into just the message, used for testing."""
-    print(s)
-    split= s.split('\"')
-    split=split[3]
-    return split
-
 
 def clearDir(inputPath):
     """Clear directory of all files. 
