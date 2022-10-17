@@ -5,7 +5,6 @@ import modules
 from flask import request, Flask,send_from_directory,jsonify,Response
 from werkzeug.utils import secure_filename
 import zipfile
-from flask_sqlalchemy import SQLAlchemy
 
 
 App = Flask(__name__)
