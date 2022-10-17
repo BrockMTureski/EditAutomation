@@ -112,13 +112,17 @@ def test9():
         assert False
 
 
-#def test6():
-    #test upload endpoint w multiple file upload
-    #file = {'file1': open('C:\\Users\\Brock\\Desktop\\editAutomation\\serverSide\\coolvid.mp4',mode='rb'),
-     #'file2': open('C:\\Users\\Brock\\Desktop\\editAutomation\\serverSide\\test1.mp4',mode='rb')}
-    #r = requests.post(BASE+'upload', files=file)
-    #print(modules.splitJsonResp(r.text))
-    #if modules.splitJsonResp(r.text) == "File successfully uploaded":
-        #assert True
-    #else:
-        #assert True
+def test10():
+    #test upload endpoint w single file upload
+    file = {'file': open('C:\\Users\\Brock\\Desktop\\editAutomation\\serverSide\\coolvid.mp4',mode='rb')}
+    r = requests.post(BASE+'upload', files=file)
+    print(modules.splitJsonResp(r.text))
+    if modules.splitJsonResp(r.text) == "File successfully uploaded":
+        assert True
+    else:
+        assert False
+
+
+file = {'file': open('C:\\Users\\Brock\\Desktop\\editAutomation\\serverSide\\test1.zip',mode='rb')}
+r = requests.post(BASE+'upload', files=file)
+print(modules.splitJsonResp(r.text))

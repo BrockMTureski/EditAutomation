@@ -1,14 +1,13 @@
 import json
 import os
-import urllib.request
 from app import app
 import modules
-from flask import Flask, request, send_file,send_from_directory,jsonify,Response
+from flask import request, send_file,send_from_directory,jsonify,Response
 from werkzeug.utils import secure_filename
 import zipfile
 
 
-ALLOWED_FILE_TYPE=set(['mp4','txt'])
+ALLOWED_FILE_TYPE=set(['mp4','zip'])
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_FILE_TYPE
@@ -31,11 +30,13 @@ def uploadFile():
             if allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+            if file.fileman.rsplit('.', 1)[1].lower() == 'zip':
+                modules.unzip(os.path.join(app.config['UPLOAD_FOLDER'],filename),)
         resp = jsonify({'message' : 'File successfully uploaded'})
         resp.status_code = 201
         return resp
     else:
-        resp = jsonify({'message' : 'Only .mp4 files are allowed.'})
+        resp = jsonify({'message' : 'Only .mp4 and .zip files are allowed.'})
         resp.status_code = 400
         return resp
 

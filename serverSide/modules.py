@@ -9,6 +9,7 @@ import ffmpeg
 from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
 from csv import writer
 import shlex
+import zipfile
 
 def mp4ToWav(fileName,outFileName):
 
@@ -115,6 +116,10 @@ def subclip(mp4FileName,timeMatrix):
     return 0
 
 
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_FILE_TYPE
+
+
 def showDir(path):
     """lists directory, takes in folder path."""
     files=os.listdir(path)
@@ -164,6 +169,12 @@ def zip(path,zipfolder):
         print(files)
         zipfolder.write(files)
     os.chdir(wdRestore)
+
+
+def unzip(pathOfZip,outputPath):
+    with zipfile.ZipFile(pathOfZip,'r') as zip:
+        zip.extractall(outputPath)
+        return 0
 
 
 def main(sensitivity, delInput=False,inputPath="",outputPath=""):
