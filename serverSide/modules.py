@@ -11,6 +11,9 @@ from csv import writer
 import shlex
 import zipfile
 
+
+
+
 def mp4ToWav(fileName,outFileName):
 
     """function for converting mp4 to wav
@@ -77,7 +80,7 @@ def analyzeWavFile(file,sensitivity):
     """
 
     [Fs,x] = aIO.read_audio_file(file)
-    segments=aS.silence_removal(x,Fs,0.020,0.020,smooth_window=1.0,weight=sensitivity,plot=False)
+    segments = aS.silence_removal(x,Fs,0.020,0.020,smooth_window=1.0,weight=sensitivity,plot=False)
     return segments
 
 
@@ -88,8 +91,6 @@ def subclip(mp4FileName,timeMatrix):
         mp4FileName (string): name of input file in input folder
         timeMatrix (matrix): matrix of times to subclip
 
-    Returns:
-        _type_: _description_
     """
 
     mp4Path=app.inputDir + mp4FileName
@@ -117,6 +118,7 @@ def subclip(mp4FileName,timeMatrix):
 
 
 def allowed_file(filename):
+    ALLOWED_FILE_TYPE=set(['mp4'])
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_FILE_TYPE
 
 

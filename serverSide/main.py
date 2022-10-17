@@ -1,19 +1,20 @@
 import json
 import os
-from app import app
+import app
 import modules
-from flask import request, send_file,send_from_directory,jsonify,Response
+from flask import request, Flask,send_from_directory,jsonify,Response
 from werkzeug.utils import secure_filename
 import zipfile
+from flask_sqlalchemy import SQLAlchemy
 
 
-ALLOWED_FILE_TYPE=set(['mp4'])
+App = Flask(__name__)
+App.secret_key = "secret key"
+App.config['UPLOAD_FOLDER'] = app.UPLOAD_FOLDER
+App.config['OUTPUT_FOLDER'] = app.OUTPUT_FOLDER
 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_FILE_TYPE
 
-
-@app.route('/upload',methods=['POST'])
+@App.route('/upload',methods=['POST'])
 def uploadFile():
     # ensure post has file
     files = request.files.getlist("file")
@@ -27,7 +28,7 @@ def uploadFile():
 
     if files:
         for file in files:
-            if allowed_file(file.filename):
+            if modules.allowed_file(file.filename):
                 filename = secure_filename(file.filename)
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
         resp = jsonify({'message' : 'File successfully uploaded'})
@@ -39,14 +40,14 @@ def uploadFile():
         return resp
 
 
-@app.route('/test',methods=['GET'])
+@App.route('/test',methods=['GET'])
 def test():
     resp=jsonify({'message':"running."})
 
     return resp
 
 
-@app.route('/show-input',methods=['GET'])
+@App.route('/show-input',methods=['GET'])
 def showIn():
     message=modules.showDir(app.config['UPLOAD_FOLDER'])
     resp=jsonify({'message' : message})
@@ -54,7 +55,7 @@ def showIn():
     return resp
 
 
-@app.route('/show-output',methods=['GET'])
+@App.route('/show-output',methods=['GET'])
 def showOut():
     message=modules.showDir(app.config['OUTPUT_FOLDER'])
     resp=jsonify({'message' : message})
@@ -62,7 +63,7 @@ def showOut():
     return resp
 
 
-@app.route('/clear-input',methods=['GET'])
+@App.route('/clear-input',methods=['GET'])
 def clearIn():
     tempBool=modules.clearDir(app.config['UPLOAD_FOLDER'])
     print(app.config['UPLOAD_FOLDER'])
@@ -75,7 +76,7 @@ def clearIn():
     return resp
 
 
-@app.route('/clear-output',methods=['GET'])
+@App.route('/clear-output',methods=['GET'])
 def clearOut():
     tempBool=modules.clearDir(app.config['OUTPUT_FOLDER'])
     print(app.config['OUTPUT_FOLDER'])
@@ -88,7 +89,7 @@ def clearOut():
     return resp
 
 
-@app.route('/download',methods=['GET'])
+@App.route('/download',methods=['GET'])
 def download():
     try:
         zipfolder=zipfile.ZipFile('EditedFiles.zip','w',compression=zipfile.ZIP_STORED)
@@ -101,7 +102,7 @@ def download():
         return resp
 
 
-@app.route('/delZip',methods=['GET'])
+@App.route('/delZip',methods=['GET'])
 def delzip():
     r=modules.delFile('EditedFiles.zip')
     if r is True:
@@ -113,7 +114,7 @@ def delzip():
         resp.status_code=200
 
 
-@app.route('/run/<sensitivity>',methods=['GET'])
+@App.route('/run/<sensitivity>',methods=['GET'])
 def run(sensitivity=0.5):
     sens=float(sensitivity)
     r= modules.main(sens)
@@ -123,4 +124,4 @@ def run(sensitivity=0.5):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    App.run(debug=True)
