@@ -58,7 +58,7 @@ def test3():
 
 def test4():
     #test show endpoint on directory with files
-    r = requests.get(BASE+'show')
+    r = requests.get(BASE+'show-input')
     print(r.text)
     t=modules.splitJsonResp(r.text)
     
