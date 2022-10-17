@@ -47,7 +47,7 @@ def test():
 
 
 @app.route('/show-input',methods=['GET'])
-def show():
+def showIn():
     message=modules.showDir(app.config['UPLOAD_FOLDER'])
     resp=jsonify({'message' : message})
     resp.status_code=200
@@ -55,7 +55,7 @@ def show():
 
 
 @app.route('/show-output',methods=['GET'])
-def show():
+def showOut():
     message=modules.showDir(app.config['OUTPUT_FOLDER'])
     resp=jsonify({'message' : message})
     resp.status_code=200
@@ -105,7 +105,7 @@ def download():
 def run(sensitivity=0.5):
     sens=float(sensitivity)
     r= modules.main(sens)
-    resp=jsonify({"message":"video automation complete. Download available."})
+    resp=jsonify({'message':'Video automation complete. Download available.'})
     resp.status_code=200
     return resp
 

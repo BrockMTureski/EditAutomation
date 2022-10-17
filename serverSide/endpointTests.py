@@ -68,6 +68,28 @@ def test4():
         assert False
 
 
+def test69():
+    #testing run function
+    r=requests.get(BASE+'run/0.5')
+    t=modules.splitJsonResp(r.text)
+    if t == "Video automation complete. Download available.":
+        assert True
+    else: 
+        assert False
+
+
+def test7():
+    #test for file download
+    r=requests.get(BASE+'download')
+    fd = open('EditedFiles.zip','wb')
+    fd.write(r.content)
+    fd.close()
+    if os.path.exists("C:\\Users\\Brock\\Desktop\\editAutomation\\serverSide\\EditedFiles.zip"):
+        assert True
+    else:
+        assert False
+
+
 def test5():
     #clear input dir
     r = requests.get(BASE+'clear-input')
@@ -89,18 +111,6 @@ def test5():
         #assert True
     #else:
         #assert True
-
-
-def test7():
-    #test for file download
-    r=requests.get(BASE+'download')
-    fd = open('EditedFiles.zip','wb')
-    fd.write(r.content)
-    fd.close()
-    if os.path.exists("C:\\Users\\Brock\\Desktop\\editAutomation\\serverSide\\EditedFiles.zip"):
-        assert True
-    else:
-        assert False
 
 
 r=requests.get(BASE+'download')
