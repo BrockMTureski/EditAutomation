@@ -1,3 +1,4 @@
+import json
 import os
 import urllib.request
 from app import app
@@ -101,6 +102,18 @@ def download():
         return resp
 
 
+@app.route('/delZip',methods=['GET'])
+def delzip():
+    r=modules.delFile('EditedFiles.zip')
+    if r is True:
+        resp=jsonify({'message':'Download file deleted.'})
+        resp.status_code=200
+        return resp
+    else:
+        resp=jsonify({'message':'Failed to delete download file.'})
+        resp.status_code=200
+
+
 @app.route('/run/<sensitivity>',methods=['GET'])
 def run(sensitivity=0.5):
     sens=float(sensitivity)
@@ -112,4 +125,3 @@ def run(sensitivity=0.5):
 
 if __name__ == "__main__":
     app.run(debug=True)
-

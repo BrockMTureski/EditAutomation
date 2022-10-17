@@ -11,7 +11,7 @@ BASE = "http://127.0.0.1:5000/"
 
 #blackbox endpoint tests
 
-def test():
+def test1():
     #clear output dir
     r = requests.get(BASE+'clear-output')
     t=modules.splitJsonResp(r.text)
@@ -22,7 +22,7 @@ def test():
         assert False
 
 
-def test1():
+def test2():
     #clear input dir
     r = requests.get(BASE+'clear-input')
     t=modules.splitJsonResp(r.text)
@@ -33,7 +33,7 @@ def test1():
         assert False
 
 
-def test2():
+def test3():
     #test show endpoint on empty dir
     r = requests.get(BASE+'show-input')
     print(r.text)
@@ -45,7 +45,7 @@ def test2():
         assert False
 
 
-def test3():
+def test4():
     #test upload endpoint w single file upload
     file = {'file': open('C:\\Users\\Brock\\Desktop\\editAutomation\\serverSide\\coolvid.mp4',mode='rb')}
     r = requests.post(BASE+'upload', files=file)
@@ -56,7 +56,7 @@ def test3():
         assert False
 
 
-def test4():
+def test5():
     #test show endpoint on directory with files
     r = requests.get(BASE+'show-input')
     print(r.text)
@@ -68,7 +68,7 @@ def test4():
         assert False
 
 
-def test69():
+def test6():
     #testing run function
     r=requests.get(BASE+'run/0.5')
     t=modules.splitJsonResp(r.text)
@@ -90,12 +90,23 @@ def test7():
         assert False
 
 
-def test5():
+def test8():
     #clear input dir
     r = requests.get(BASE+'clear-input')
     t=modules.splitJsonResp(r.text)
     print(t)
     if t == "Input folder cleared.":
+        assert True
+    else:
+        assert False
+
+
+def test9():
+    #clear input dir
+    r = requests.get(BASE+'delZip')
+    t=modules.splitJsonResp(r.text)
+    print(t)
+    if t == "Download file deleted.":
         assert True
     else:
         assert False
@@ -111,9 +122,3 @@ def test5():
         #assert True
     #else:
         #assert True
-
-
-r=requests.get(BASE+'download')
-fd = open('EditedFiles.zip','wb')
-fd.write(r.content)
-fd.close()
