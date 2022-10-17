@@ -47,7 +47,7 @@ def test3():
 
 def test4():
     #test upload endpoint w single file upload
-    file = {'file': open('C:\\Users\\Brock\\Desktop\\editAutomation\\serverSide\\coolvid.mp4',mode='rb')}
+    file = {'file': open('C:\\Users\\Brock\\Desktop\\editAutomation\\clientSide\\coolvid.mp4',mode='rb')}
     r = requests.post(BASE+'upload', files=file)
     print(clientModules.splitJsonResp(r.text))
     if clientModules.splitJsonResp(r.text) == "File successfully uploaded":
@@ -59,7 +59,6 @@ def test4():
 def test5():
     #test show endpoint on directory with files
     r = requests.get(BASE+'show-input')
-    print(r.text)
     t=clientModules.splitJsonResp(r.text)
     
     if t == "coolvid.mp4":
@@ -84,7 +83,7 @@ def test7():
     fd = open('EditedFiles.zip','wb')
     fd.write(r.content)
     fd.close()
-    if os.path.exists("C:\\Users\\Brock\\Desktop\\editAutomation\\serverSide\\EditedFiles.zip"):
+    if os.path.exists("C:\\Users\\Brock\\Desktop\\editAutomation\\clientSide\\EditedFiles.zip"):
         assert True
     else:
         assert False
@@ -94,7 +93,6 @@ def test8():
     #clear input dir
     r = requests.get(BASE+'clear-input')
     t=clientModules.splitJsonResp(r.text)
-    print(t)
     if t == "Input folder cleared.":
         assert True
     else:
@@ -105,7 +103,6 @@ def test9():
     #clear input dir
     r = requests.get(BASE+'delZip')
     t=clientModules.splitJsonResp(r.text)
-    print(t)
     if t == "Download file deleted.":
         assert True
     else:
