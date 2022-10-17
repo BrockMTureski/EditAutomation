@@ -47,7 +47,7 @@ def test3():
 
 def test4():
     #test upload endpoint w single file upload
-    file = {'file': open('C:\\Users\\Brock\\Desktop\\editAutomation\\clientSide\\coolvid.mp4',mode='rb')}
+    file = {'file': open(os.getcwd()+'\\coolvid.mp4',mode='rb')}
     r = requests.post(BASE+'upload', files=file)
     print(clientModules.splitJsonResp(r.text))
     if clientModules.splitJsonResp(r.text) == "File successfully uploaded":
@@ -83,7 +83,7 @@ def test7():
     fd = open('EditedFiles.zip','wb')
     fd.write(r.content)
     fd.close()
-    if os.path.exists("C:\\Users\\Brock\\Desktop\\editAutomation\\clientSide\\EditedFiles.zip"):
+    if os.path.exists(os.getcwd()+'\\EditedFiles.zip'):
         assert True
     else:
         assert False
@@ -100,7 +100,7 @@ def test8():
 
 
 def test9():
-    #clear input dir
+    #delete zip file
     r = requests.get(BASE+'delZip')
     t=clientModules.splitJsonResp(r.text)
     if t == "Download file deleted.":

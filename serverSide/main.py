@@ -1,6 +1,6 @@
 import json
 import os
-import app
+import app as app
 import modules
 from flask import request, Flask,send_from_directory,jsonify,Response
 from werkzeug.utils import secure_filename
@@ -29,7 +29,7 @@ def uploadFile():
         for file in files:
             if modules.allowed_file(file.filename):
                 filename = secure_filename(file.filename)
-                file.save(os.path.join(app.config['UPLOAD_FOLDER'],filename))
+                file.save(os.path.join(App.config['UPLOAD_FOLDER'],filename))
         resp = jsonify({'message' : 'File successfully uploaded'})
         resp.status_code = 201
         return resp
@@ -48,7 +48,7 @@ def test():
 
 @App.route('/show-input',methods=['GET'])
 def showIn():
-    message=modules.showDir(app.config['UPLOAD_FOLDER'])
+    message=modules.showDir(App.config['UPLOAD_FOLDER'])
     resp=jsonify({'message' : message})
     resp.status_code=200
     return resp
@@ -56,7 +56,7 @@ def showIn():
 
 @App.route('/show-output',methods=['GET'])
 def showOut():
-    message=modules.showDir(app.config['OUTPUT_FOLDER'])
+    message=modules.showDir(App.config['OUTPUT_FOLDER'])
     resp=jsonify({'message' : message})
     resp.status_code=200
     return resp
@@ -64,8 +64,8 @@ def showOut():
 
 @App.route('/clear-input',methods=['GET'])
 def clearIn():
-    tempBool=modules.clearDir(app.config['UPLOAD_FOLDER'])
-    print(app.config['UPLOAD_FOLDER'])
+    tempBool=modules.clearDir(App.config['UPLOAD_FOLDER'])
+    print(App.config['UPLOAD_FOLDER'])
     if tempBool is True:
         resp=jsonify({'message' : "Input folder cleared."})
         resp.status_code=200
@@ -77,8 +77,8 @@ def clearIn():
 
 @App.route('/clear-output',methods=['GET'])
 def clearOut():
-    tempBool=modules.clearDir(app.config['OUTPUT_FOLDER'])
-    print(app.config['OUTPUT_FOLDER'])
+    tempBool=modules.clearDir(App.config['OUTPUT_FOLDER'])
+    print(App.config['OUTPUT_FOLDER'])
     if tempBool is True:
         resp=jsonify({'message' : "Output folder cleared."})
         resp.status_code=200

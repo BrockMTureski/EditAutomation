@@ -1,11 +1,12 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 
-UPLOAD_FOLDER = "C:\\Users\\Brock\Desktop\\editAutomation\\serverSide\\input"
-OUTPUT_FOLDER = "C:\\Users\\Brock\\Desktop\\editAutomation\\serverSide\\output"
+UPLOAD_FOLDER = os.getcwd()+"\\input"
+OUTPUT_FOLDER = os.getcwd()+"\\output"
 
 #Folder output for clips to be output to
-outputDir="C:\\Users\\Brock\\Desktop\\editAutomation\\serverSide\\output\\"
+outputDir=os.getcwd()+"\\output\\"
 #Folder for clip being edited
-inputDir="C:\\Users\\Brock\\Desktop\\editAutomation\\serverSide\\input\\"
+inputDir=os.getcwd()+"\\input\\"

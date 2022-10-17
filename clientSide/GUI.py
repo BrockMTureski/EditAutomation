@@ -1,5 +1,8 @@
 from PIL import ImageTk as itk
 from tkinter import *
+import clientSettings
+import clientModules
+import os
 
 def guiInit():
     """
@@ -30,8 +33,8 @@ def guiInit():
     window=Canvas(top,bg=color,bd=0)
     titleLabel=Label(titleBar,text="Minute Study Automations",bg=barColor,fg="white")
 
-    minuteStudy = "minutestudy16.png"
-    menuImage=itk.PhotoImage(file=minuteStudy)
+    minuteStudy = os.getcwd()+'\\'+"minutestudy16.png"
+    menuImage=PhotoImage(file=minuteStudy)
     menuButton=Button(titleBar,image=menuImage,bg=barColor,fg=barColor,highlightbackground=barColor,bd=0)
 
     titleBar.pack(expand=1,fill=X)
@@ -51,9 +54,9 @@ def guiInit():
     outputFolder.grid(row=0,column=2)
     sensitivity= Label(top,text="Sensitivity (0.1-1)",fg="white",bg=color)
     sensitivity.grid(row=0,column=3)
-    defaultIn= Label(top,text="Default Input Path= "+settings.inputDir,fg="white",bg=color)
+    defaultIn= Label(top,text="Default Input Path= "+clientSettings.inputDir,fg="white",bg=color)
     defaultIn.grid(row=0,column=4)
-    defaultOut= Label(top,text="Default Input Path= "+settings.outputDir,fg="white",bg=color)
+    defaultOut= Label(top,text="Default Input Path= "+clientSettings.outputDir,fg="white",bg=color)
     defaultOut.grid(row=0,column=5)
 
     e1 = Entry(top,width=30)
@@ -84,7 +87,7 @@ def guiInit():
         run.destroy()
         processing=Label(top,text="processing...",fg="white",bg=color,bd=0)
         processing.place(x=200,y=125)
-        temp=main(sens,inputPath=inputt,outputPath=out)
+        #temp=main(sens,inputPath=inputt,outputPath=out)
         processing.destroy()
         done=Label(top,text="Automation complete.",fg="white",bg=color,bd=0).place(x=180,y=125)
 
@@ -92,3 +95,5 @@ def guiInit():
     run.bind("<Button-1>",automate)
 
     top.mainloop()
+
+guiInit()
